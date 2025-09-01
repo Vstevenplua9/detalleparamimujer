@@ -1,7 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
   const phrases = [
     "Te amo ❤️",
-    "My love",
+    "My love, Mi vida",
+    "Mi consentida 💚",
     "Gracias por ser tú",
     "Orgulloso de ti!",
     "Mi poderosa mujer!",
@@ -270,4 +271,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
   updateAudioButton();
 });
+
 
