@@ -57,7 +57,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const stage = document.getElementById('stage');
   const starfield = document.getElementById('starfield');
 
-  // Si por alguna razón los elementos no están presentes, detenemos el script para evitar errores.
   if (!stage || !starfield) return;
 
   const rand = (a,b) => Math.random()*(b-a)+a;
@@ -188,17 +187,17 @@ document.addEventListener('DOMContentLoaded', () => {
       const layer = depthLayers[layerIndex];
       const el = document.createElement(item.type === 'img' ? 'img' : 'div');
       el.classList.add('falling');
+      if(item.type === 'img') el.classList.add('img');
+
       const sizeVW = rand(layer.size[0], layer.size[1]).toFixed(2);
       const opacity = rand(layer.opacity[0], layer.opacity[1]).toFixed(2);
       const z = Math.floor(rand(layer.z[0], layer.z[1]));
       const duration = rand(layer.duration[0], layer.duration[1]).toFixed(2);
       if(item.type === 'img'){
         el.src = item.value;
-        el.classList.add('img');
         el.style.width = `${rand(8,20)}vw`;
         el.style.height = 'auto';
         el.loading = 'lazy';
-        // Si la imagen falla al cargar, la eliminamos para evitar elementos rotos.
         el.onerror = () => { try { if(el && el.parentNode) el.parentNode.removeChild(el); } catch(e) {} };
       } else {
         el.textContent = item.value;
@@ -235,4 +234,37 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   initialFill();
   function refreshPool(){ pool = makePool(); }
+
+  const audio = document.getElementById('bgAudio');
+  const audioBtn = document.getElementById('audioControl');
+
+  if (audio) {
+    audio.play().catch(()=>{});
+  }
+
+  function updateAudioButton() {
+    if (!audio) return;
+    if (audio.muted || audio.volume === 0) {
+      audioBtn.textContent = '🔇';
+      audioBtn.setAttribute('aria-pressed', 'false');
+      audioBtn.setAttribute('aria-label', 'Activar sonido');
+    } else {
+      audioBtn.textContent = '🔊';
+      audioBtn.setAttribute('aria-pressed', 'true');
+      audioBtn.setAttribute('aria-label', 'Desactivar sonido');
+    }
+  }
+
+  audioBtn && audioBtn.addEventListener('click', (e) => {
+    if (!audio) return;
+    if (audio.muted) {
+      audio.muted = false;
+      audio.play().catch(()=>{});
+    } else {
+      audio.muted = true;
+    }
+    updateAudioButton();
+  });
+
+  updateAudioButton();
 });
