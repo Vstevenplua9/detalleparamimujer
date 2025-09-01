@@ -9,6 +9,7 @@
   --star2:#8ef5c2;
   --heart-green:#8ef5c2;
   --heart-red:#ff4757;
+  --img-radius: 12px;
 }
 *{box-sizing:border-box}
 html,body,#app{height:100%;margin:0;font-family:"Marhey",system-ui,Arial,sans-serif;background:var(--bg);color:var(--accent)}
@@ -23,7 +24,40 @@ html,body,#app{height:100%;margin:0;font-family:"Marhey",system-ui,Arial,sans-se
 @keyframes fall{0%{ transform: translateY(-30vh) translateZ(0) rotate(-1deg); opacity:0 }8%{ opacity:1 }100%{ transform: translateY(120vh) translateZ(0) rotate(1deg); opacity:0 }}
 @keyframes colorChange{0%{color:var(--col1)}33%{color:var(--col2)}66%{color:var(--col3)}100%{color:var(--col1)}}
 .falling{animation-name:fall,colorChange;animation-timing-function:linear,linear;animation-iteration-count:1,infinite;animation-fill-mode:forwards,none}
+.falling.img, img.img {
+  border-radius: var(--img-radius);
+  box-shadow: 0 8px 26px rgba(0,0,0,0.45);
+  object-fit: cover;
+  display: block;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
 .heart{position:fixed;z-index:2200;pointer-events:none;font-size:2.2vw;line-height:1;transform-origin:center;color:var(--heart-green);text-shadow:0 8px 26px rgba(142,245,194,0.12);filter:drop-shadow(0 4px 10px rgba(0,0,0,0.35));will-change:transform,opacity}
 .heart--red{ color: var(--heart-red); text-shadow:0 8px 26px rgba(255,71,87,0.12); }
 .heart-trail{position:fixed;width:7px;height:7px;border-radius:50%;background:rgba(142,245,194,1);box-shadow:0 0 10px rgba(142,245,194,0.9);pointer-events:none;will-change:transform,opacity;mix-blend-mode:screen;opacity:0.9}
-@media (max-width:600px){ .heart{font-size:4.4vw} .heart-trail{width:9px;height:9px} .falling{font-size:clamp(9px,2.2vw,4.8vw)} }
+.audio-control{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  z-index:3000;
+  width:48px;
+  height:48px;
+  border-radius:12px;
+  border:none;
+  background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  color:var(--accent);
+  font-size:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  box-shadow:0 8px 24px rgba(0,0,0,0.45);
+  backdrop-filter: blur(6px);
+}
+.audio-control:focus{ outline:2px solid rgba(158,247,255,0.18) }
+@media (max-width:600px){
+  .heart{font-size:4.4vw}
+  .heart-trail{width:9px;height:9px}
+  .falling{font-size:clamp(9px,2.2vw,4.8vw)}
+  .audio-control{right:12px;bottom:12px;width:44px;height:44px;border-radius:10px}
+}
